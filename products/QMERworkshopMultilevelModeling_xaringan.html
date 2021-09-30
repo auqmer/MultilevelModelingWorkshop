@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Mixed-Effects Modeling</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <link rel="stylesheet" href="QMER-xaringan.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Mixed-Effects Modeling
+## Why It Should be the Default Method
+### QMER Workshop
+### Fall 2021 (updated: 2021-09-30)
+
+---
+
+
+
+
+
+## Outline of the Workshop
+
+* QMER sales pitch
+
+* Conceptual Primer
+
+* Example of a two level model
+
+---
+## QMER: What we do
+
+* Support for Statistics and Project Management, and Workflow
+
+* Professional skills not taught in your courses
+
+* Research labs, teaching opportunities
+
+* Large scale public data sets
+
+---
+class: inverse center middle
+
+# Conceptual Introduction to Multilevel Modeling
+### Why it should be the default method
+
+
+---
+
+## Examples of Multilevel Models
+
+* Clustered data (students within classrooms, within schools)
+* Longitudinal data (time within individual)
+    - Repeated measures designs
+    - Some time series models
+    - Functional data analysis
+    - Intensive longitudinal models
+    
+---
+## Other Methods that can benefit for MLM
+
+* Missing data imputation
+* Models of measurement error
+* Latent Variable Modeling (SEM)
+    - Factor analysis
+    - Multilevel Path Analysis and Mediation
+    - Multilevel Structural Equation Models (MSEM)
+
+* Types of spatial and network models 
+
+---
+
+## Problems with Aggregation and Disaggregation 
+
+.pull-left[
+### Aggregation
+
+* Variables at a lower level are moved to higher level (e.g., averaging over trials)
+* Loss of information
+* Loss of power
+]
+
+.pull-right[
+### Disaggregation
+
+* Variables at a higher level are moved to lower level (assigning each student the class size)
+* Type I error rate inflated
+]
+--
+.center[
+### Interpretation Errors
+]
+* *ecological fallacy* - interpreting aggregated data at a lower level based on analysis at a higher level
+* *atomistic fallacy* - inferring from lower level to higher level.
+--
+
+#### Multilevel models help avoid all this
+
+---
+## Models with Memory
+
+Multilevel models help by pooling information across clusters, but in a way that maximizes the available information.
+
+If we have clustered data we can deal with in in three basic ways:
+
+--
+
+1. **complete pooling** - Ignore clustering. Just completely pool information across clusters. We will assume that the clusters are from identical populations.
+--
+
+2. **no-pooling** - Analyze each cluster separately  (or include dummy variables for clusters). Like anterograde amnesia. All populations are independent. 
+--
+
+3. **partial-pooling** Models with memory (MLM). Using information across clusters to regularize estimates. Pooling, estimates are weighted by the available information in the clusters.
+
+---
+## Partial Pooling
+
+.pull-left[
+![](figures/partialpooling_reedfrog.png)
+]
+
+.pull-right[
+
+* **X-axis** Pond number, organized by number of tadpoles. 
+* **Y-axis** - Absolute error in the predicted proportion of survivors,
+compared to the true value used in the simulation.
+* The higher the point, the worse the estimate. 
+* **blue points** - No-pooling estimates. (regression with dummy variables)
+* **black open points** - Partial-pooled estimates (MLM)
+* The blue and dashed black lines show the average error for each
+kind of estimate, across each initial density of tadpoles (pond size). 
+* Smaller ponds produce more error, but the partial pooling estimates are better on
+average, especially in smaller ponds.
+]
+
+???
+
+Reedfrog mortality
+* tadpoles clustered in ponds
+* ponds differ on many unmeasured properties
+---
+
+## Benefits of Partial Pooling
+
+* **To adjust estimates for repeated sampling**: within clusters or within individuals
+
+* **To adjust for imbalance in sampling**: When some individuals within clusters or some times within individuals are sampled more than others.
+
+* **To study variation**: Variability is explicitly model in MLM.
+
+* **To avoid averaging**: Averaging is dangerous as it removes variability, making models over-confident. ML uses all data  while still using the average to make predictions, but preserving uncertainty.
+
+---
+
+## There's No Free Lunch
+
+.large[
+* MLM models are more **complex**, and can be hard to understand
+* Require more complex theories
+* MLM models require more **computational intensity** (Maximum Likelihood or Bayesian Estimation)
+* MLM makes **additional assumptions** (distribution of parameters)
+* Can require larger **sample sizes** (though Bayesian methods can help if done correctly)
+]
+
+---
+
+## MLM should be the default approach
+
+.large[
+* There will be context when single-level is better, but the contexts in which MLM are superior are numerous.
+* It is better to build a multilevel model and learn it is not needed than to assume it is not and never know.
+* Variability is important
+* Because reality is naturally hierarchically organized, so  should our theoretical models and the resulting statistical models should used to test them.
+]
+
+???
+Injuries may not only change average performance, but may also lead to more variability in performance.
+
+???
+
+Add model comparison section
+
+## Model Comparison Approach
+
+1. Design the model (data generation process)
+
+2. Condition on the data (update)
+
+3. Evaluate the model (critique)
+
+4. Repeat!
+
+---
+
+## Estimation and Software
+
+### Estimation
+
+* MLM requires moving beyond OLS to more complex methods of estimation
+* These include versions Maximum Likelihood (ML) and Bayesian methods.
+* Both are require iterative processes, which can be time consuming and require convergence (which may fail)
+
+### Software
+
+* I use R almost exclusively
+* Mplus is also good for MLM particularly with latent variables
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "16:9"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

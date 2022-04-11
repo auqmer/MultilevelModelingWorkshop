@@ -11,8 +11,6 @@
 library(psych)
 library(nlme)
 
-
-
 # Explore the data --------------------------------------------------------
 
 hist(hsb$mathach, breaks = "fd")
@@ -75,5 +73,6 @@ resdf <- data.frame(resids = resid(partial.pooling.model), school = hsb$school)
 school.order <- with(resdf, reorder(school, resids, median, na.rm = TRUE))
 boxplot(resids ~ school.order, resdf, main = "Partial Pooling Model")
 
-
-
+partial2 <- lme(mathach ~ ses, data = hsb,
+                random = ~ 1 + ses | school)
+summary(partial2)

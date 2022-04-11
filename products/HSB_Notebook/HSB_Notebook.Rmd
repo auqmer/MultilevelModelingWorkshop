@@ -1,0 +1,179 @@
+---
+title: "Multilevel Modeling"
+subtitle: "Modeling Achievement with High School and Beyond"
+author: "William Murrah"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE, comment=NULL)
+library(lme4)
+library(lmerTest)
+library(performance)
+library(texreg)
+library(psych)
+library(ggplot2)
+library(car)
+```
+
+
+This notebook documents the use of a multilevel regression framework to model mathematics achievement using the High School and Beyond data. See the documentation for this data in the following directory in this project:
+
+`MultilevelModelingWorkshop/resources/ho_hsb.pdf`
+
+This project and all the necessary materials can be downloaded from the following github page:
+
+https://github.com/auqmer/MultilevelModelingWorkshop
+
+If you don't know how to use github, just click on the green Code tab then click "Download ZIP".
+
+The data set can be found in `data/hsb.csv`, which contain data on 7,185 students nested within 160 schools.
+
+### Student level variables:  
+*minority* - an indicator for student ethnicity (1 = minority, 0 = other)  
+*female* - an indicator for student gender (1 = female, 0 = male)  
+*ses* - (a standardized scale constructed from variables measuring parental education, occupation, and income)   
+*mathach* - a measure of mathematics achievement  
+
+### School level variables:
+*size* - (school enrollment)  
+*sector* - (1 = Catholic, 0 = public)  
+*pracad* - (proportion of students in the academic track)  
+*disclim* - (a scale measuring disciplinary climate)  
+*himnty* - (1 = more than 40% minority enrollment, 0 = less than 40%)   
+*meanses* - (mean of the SES values for the students in this school who are included in the level-1 file)  
+
+## Exploring HSB Data
+
+
+### Load and clean the data
+```{r}
+# Run the R script to load and clean HSB data:
+source("code/cleanHSB.R")
+
+# Create a data set aggregated at the school level
+hsb_school        <- aggregate(mathach ~ school, data = hsb, FUN = mean)
+hsb_school$ses    <- aggregate(ses     ~ school, data = hsb, FUN = mean)$ses
+hsb_school$sector <- aggregate(sector  ~ school, data = hsb, FUN = unique)$sector
+hsb_school$size   <- aggregate(size    ~ school, data = hsb, FUN = mean)$size
+```
+
+### Visualize key student level variables
+
+```{r}
+hist(hsb$mathach, 
+     breaks = "fd",
+     main = "Distribution of Math Achievement Scores",
+     xlab = "Math Achievement")
+```
+```{r}
+hist(hsb$ses, 
+     breaks = "fd",
+     main = "Distribution of SES Scores",
+     xlab = "Socioeconomic Status")
+```
+```{r}
+plot(mathach ~ ses, 
+     data = hsb,
+     main = "Visualizing Relation between Math Achievement and SES",
+     ylab = "Math Achievement",
+     xlab = "Socioeconomic Status")
+```
+
+### Do Mean Math and SES vary by School?
+
+```{r}
+
+plot(mathach ~ ses, 
+     data = hsb_school,
+     main = "Comparing Mean Math and SES scores for each school",
+     ylab = "Mean Math Scores by School",
+     xlab = "Mean SES Score by School")
+```
+
+```{r, warning=FALSE}
+describe(hsb, fast = TRUE)
+```
+
+```{r}
+
+ggplot(hsb_school, aes(x = ses, y = mathach, color = sector, size = size)) +
+  geom_point(alpha = .5) + labs(y = "Mean Math Achievement", 
+                      x = "Mean Socioeconomic status",
+                      title = "Comparing Mean Math, SES, Sector, and School Size")
+```
+
+
+
+## Models
+
+### Empty Model
+
+```{r}
+empty.model <- lmer(mathach ~ 1 + (1|school), data = hsb)
+summary(empty.model)
+```
+
+```{r}
+8.614/(8.614 + 39.148)
+
+# in the performance package:
+icc(empty.model)
+```
+
+```{r}
+level1.model <- lmer(mathach ~ ses + female + (1 | school), data = hsb)
+summary(level1.model)
+```
+
+```{r}
+level1.2.model <- lmer(mathach ~ ses + female +  
+                         sector + size + disclim + (1 |school),
+                       data = hsb)
+summary(level1.2.model)
+```
+
+```{r}
+level1.2.mses.model <- lmer(mathach ~ ses + female +  
+                         sector + size + disclim + meanses + (1 |school),
+                       data = hsb)
+summary(level1.2.mses.model)
+```
+
+```{r}
+level1.2.mses.re_ses.model <- lmer(mathach ~ ses + female +  
+                         sector + size + disclim + meanses + (ses |school),
+                       data = hsb)
+summary(level1.2.mses.re_ses.model)
+```
+
+```{r, results='asis'}
+htmlreg(list(empty.model, level1.model, level1.2.model, level1.2.mses.model,
+             level1.2.mses.re_ses.model))
+```
+
+```{r}
+anova(level1.2.mses.model, level1.2.mses.re_ses.model)
+```
+
+
+```{r}
+hist(resid(empty.model), breaks = "fd")
+```
+
+```{r}
+hist(resid(level1.2.mses.re_ses.model), breaks = "fd")
+```
+
+```{r}
+plot(level1.2.mses.re_ses.model)
+```
+
+
+```{r}
+plot(ranef(level1.2.mses.re_ses.model))
+```
+
+

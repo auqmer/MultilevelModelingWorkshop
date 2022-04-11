@@ -4,7 +4,7 @@
     <title>Mixed-Effects Modeling</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs/header-attrs.js"></script>
-    <link rel="stylesheet" href="QMER-xaringan.css" type="text/css" />
+    <link rel="stylesheet" href="qmer-xaringan.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
@@ -13,7 +13,7 @@ class: center, middle, inverse, title-slide
 # Mixed-Effects Modeling
 ## Why It Should be the Default Method
 ### QMER Workshop
-### Fall 2021 (updated: 2021-09-30)
+### Spring 2022 (updated: 2022-04-11)
 
 ---
 
@@ -41,10 +41,95 @@ class: center, middle, inverse, title-slide
 * Large scale public data sets
 
 ---
+class: inverse middle center large
+
+# Science is Model Building
+
+---
+class: large
+## The Scientific Process
+
+* **Goals of Science**: *Describe, Predict, Explain*
+
+* All these require (over)simplifying reality
+
+* **Modeling** is a *rigorous, systematic, transparent* way to simplify reality
+
+---
+class: large
+
+## What are Scientific Models?
+
+
+&gt; *Models are explicit statements about the processes that give rise to observed data.*  - Little (2013)
+
+&gt; *A mathematical model is a set of assumptions together with implications drawn from them by mathematical reasoning.* - Neimark and Estes (1967 quoted in Rodgers, 2010)
+
+* Models are representations of how our key constructs are related.
+* They can be narrative, graphical, or mathematical. 
+* Models   
+       1. match reality in some way, and,   
+       2. are simpler than reality.
+
+---
+class: large
+
+## Why do we need models?
+
+
+If we acknowledge the .red[**complexity**] and .red[**interrelatedness**] of reality, and our goal is the perfect model, we soon realize **To model anything, we would have to model everything**!
+
+--
+
+*All models are wrong, but some are useful* - George Box
+
+--
+
+So, it is important to **not confuse your model with reality**
+
+---
+class: large
+
+## Occam's Razor
+
+
+* We need to balance explanatory power (complexity) with parsimony (simplicity)
+* We want to constantly ask: "What do we gain by adding complexity?"
+* **ALL METHODS** simply the phenomenon the are used to study.
+* This is not a limitation, but a design feature,
+* The researcher (not the method) chooses how to balance simplicity and complexity.
+* As data become more complex, our explanations should become more complex, and so, **the complexity of our data analysis should match the complexity of our explanations** (i.e. theory).
+
+
+
+---
 class: inverse center middle
 
 # Conceptual Introduction to Multilevel Modeling
 ### Why it should be the default method
+
+---
+class: big2
+## Assumptions of General Linear Models
+
+* **Normality** - 
+
+---
+class: big2
+## Some Key Assumptions of Regression Models
+
+--
+* **Normality** - The errors (residuals) are normally distributed, with an expected mean of zero (unbiased).
+
+--
+* **Constant Variance**(Homogeneity of variance; Identically distributed) - The variance of the errors is constant across values of the explanatory variables.
+
+--
+* **No measurement error in predictors** - The predictors are measured without error. **THIS IS AN IMPORTANT AND ALMOST ALWAYS VIOLATED ASSUMPTION**.
+
+--
+* **Independence** - The observations are sampled independently (the residuals are independent).
+
 
 
 ---
@@ -99,6 +184,7 @@ class: inverse center middle
 #### Multilevel models help avoid all this
 
 ---
+class: big2
 ## Models with Memory
 
 Multilevel models help by pooling information across clusters, but in a way that maximizes the available information.
@@ -116,6 +202,7 @@ If we have clustered data we can deal with in in three basic ways:
 3. **partial-pooling** Models with memory (MLM). Using information across clusters to regularize estimates. Pooling, estimates are weighted by the available information in the clusters.
 
 ---
+
 ## Partial Pooling
 
 .pull-left[
@@ -142,7 +229,7 @@ Reedfrog mortality
 * tadpoles clustered in ponds
 * ponds differ on many unmeasured properties
 ---
-
+class: large
 ## Benefits of Partial Pooling
 
 * **To adjust estimates for repeated sampling**: within clusters or within individuals
@@ -170,9 +257,9 @@ Reedfrog mortality
 ## MLM should be the default approach
 
 .large[
-* There will be context when single-level is better, but the contexts in which MLM are superior are numerous.
+* There will be contexts in which single-level is better, but the contexts in which MLM are superior are numerous.
 * It is better to build a multilevel model and learn it is not needed than to assume it is not and never know.
-* Variability is important
+* Variability is important, and should be a part of our models.
 * Because reality is naturally hierarchically organized, so  should our theoretical models and the resulting statistical models should used to test them.
 ]
 

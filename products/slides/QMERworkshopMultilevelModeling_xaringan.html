@@ -20,16 +20,7 @@ class: center, middle, inverse, title-slide
 
 
 
-
-## Outline of the Workshop
-
-* QMER sales pitch
-
-* Conceptual Primer
-
-* Example of a two level model
-
----
+class: large
 ## QMER: What we do
 
 * Support for Statistics and Project Management, and Workflow
@@ -39,6 +30,16 @@ class: center, middle, inverse, title-slide
 * Research labs, teaching opportunities
 
 * Large scale public data sets
+
+---
+class: large
+## Outline of the Workshop
+
+* A few words about science 
+
+* Conceptual Primer
+
+* Example of a two level model
 
 ---
 class: inverse middle center large
@@ -110,12 +111,6 @@ class: inverse center middle
 
 ---
 class: big2
-## Assumptions of General Linear Models
-
-* **Normality** - 
-
----
-class: big2
 ## Some Key Assumptions of Regression Models
 
 --
@@ -133,7 +128,7 @@ class: big2
 
 
 ---
-
+class: large
 ## Examples of Multilevel Models
 
 * Clustered data (students within classrooms, within schools)
@@ -144,6 +139,7 @@ class: big2
     - Intensive longitudinal models
     
 ---
+class: large
 ## Other Methods that can benefit for MLM
 
 * Missing data imputation
@@ -156,8 +152,8 @@ class: big2
 * Types of spatial and network models 
 
 ---
-
-## Problems with Aggregation and Disaggregation 
+class: big1
+## Some bad alternatives to MLM 
 
 .pull-left[
 ### Aggregation
@@ -182,6 +178,33 @@ class: big2
 --
 
 #### Multilevel models help avoid all this
+
+---
+class: large
+
+## Good alternatives to MLM when the hierarchical structure is not of interest
+
+* Fixed Effects Models - You can include fixed effects for the nesting variable
+
+* Robust Cluster Standard Errors - Uses the sandwich estimator to adjust for the design effect in the data.
+
+---
+
+## Intraclass Correlation and Design Effect
+
+### ICC
+`$$\rho = \frac{\sigma^2_b}{\sigma^2_b + \sigma^2_w}$$`
+
+* The ICC refers to the proportion of variance between nesting groups, to the total variance of the outcome, which includes the between and within group variances.
+
+* The ICC can also be interpreted as the expected correlation between any two randomly selected case within a group.
+
+-- 
+### Design Effect
+
+`$$deff = 1 + (\text{average group size} - 1*\rho)$$`
+
+* The design effect is a function of the ICC and the average group size.
 
 ---
 class: big2
@@ -228,6 +251,7 @@ average, especially in smaller ponds.
 Reedfrog mortality
 * tadpoles clustered in ponds
 * ponds differ on many unmeasured properties
+
 ---
 class: large
 ## Benefits of Partial Pooling
@@ -241,27 +265,25 @@ class: large
 * **To avoid averaging**: Averaging is dangerous as it removes variability, making models over-confident. ML uses all data  while still using the average to make predictions, but preserving uncertainty.
 
 ---
-
+class: large
 ## There's No Free Lunch
 
-.large[
 * MLM models are more **complex**, and can be hard to understand
 * Require more complex theories
 * MLM models require more **computational intensity** (Maximum Likelihood or Bayesian Estimation)
 * MLM makes **additional assumptions** (distribution of parameters)
 * Can require larger **sample sizes** (though Bayesian methods can help if done correctly)
-]
+
 
 ---
-
+class: large
 ## MLM should be the default approach
 
-.large[
 * There will be contexts in which single-level is better, but the contexts in which MLM are superior are numerous.
 * It is better to build a multilevel model and learn it is not needed than to assume it is not and never know.
 * Variability is important, and should be a part of our models.
 * Because reality is naturally hierarchically organized, so  should our theoretical models and the resulting statistical models should used to test them.
-]
+
 
 ???
 Injuries may not only change average performance, but may also lead to more variability in performance.
@@ -281,7 +303,7 @@ Add model comparison section
 4. Repeat!
 
 ---
-
+class: large
 ## Estimation and Software
 
 ### Estimation

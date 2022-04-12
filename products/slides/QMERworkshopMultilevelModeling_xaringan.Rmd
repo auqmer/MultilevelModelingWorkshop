@@ -23,7 +23,9 @@ opts_chunk$set(echo = FALSE, comment = NULL)
 class: large
 ## QMER: What we do
 
-* Support for Statistics and Project Management, and Workflow
+QMER is a open learning community serving all of Auburn University by providing:
+
+* Support for Statistics, Project Management, and Workflow
 
 * Professional skills not taught in your courses
 
@@ -37,9 +39,9 @@ class: large
 
 * A few words about science 
 
-* Conceptual Primer
+* Conceptual Primer on Multilevel Modeling (MLM)
 
-* Example of a two level model
+* Example of a two level MLM
 
 ---
 class: inverse middle center large
@@ -96,8 +98,8 @@ class: large
 
 * We need to balance explanatory power (complexity) with parsimony (simplicity)
 * We want to constantly ask: "What do we gain by adding complexity?"
-* **ALL METHODS** simply the phenomenon the are used to study.
-* This is not a limitation, but a design feature,
+* **ALL METHODS** simply the phenomenon they are used to study.
+* This is not a limitation, but a design feature.
 * The researcher (not the method) chooses how to balance simplicity and complexity.
 * As data become more complex, our explanations should become more complex, and so, **the complexity of our data analysis should match the complexity of our explanations** (i.e. theory).
 
